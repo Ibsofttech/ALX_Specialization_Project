@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables from .env
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -10,11 +10,11 @@ const path = require('path');
 const saltRounds = 10;
 
 const app = express();
-const port = process.env.PORT || 3000; // Use PORT from .env or fallback to 3000
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.static("public"));
-app.set("views", path.join(__dirname, "contents")); // Set the views directory
+app.set("views", path.join(__dirname, "contents"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -52,8 +52,8 @@ const auth = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use JWT_SECRET from .env
-        req.user = decoded; // Set req.user to the decoded token payload
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
         next();
     } catch (err) {
         res.status(401).send("Unauthorized");
@@ -122,7 +122,6 @@ app.post("/login", (req, res) => {
                 // Set the token in a cookie
                 res.cookie('token', token, { httpOnly: true });
 
-                // Redirect to the blog page
                 res.redirect("/blog");
             });
         })
@@ -141,7 +140,7 @@ app.get('/blog', auth, (req, res) => {
     Post.find()
         .populate('author', 'username')
         .then((posts) => {
-            res.render('blog', { posts, user: req.user }); // Pass req.user to the template
+            res.render('blog', { posts, user: req.user }); 
         })
         .catch((err) => {
             console.error("Error fetching posts:", err);
@@ -151,13 +150,12 @@ app.get('/blog', auth, (req, res) => {
 
 // Route to handle search
 app.get('/search', auth, (req, res) => {
-    const query = req.query.query; // Get the search query from the URL
+    const query = req.query.query;
 
-    // Search for posts whose titles match the query (case-insensitive)
     Post.find({ title: { $regex: query, $options: 'i' } })
         .populate('author', 'username')
         .then((posts) => {
-            res.render('blog', { posts, user: req.user }); // Render the blog page with search results
+            res.render('blog', { posts, user: req.user });
         })
         .catch((err) => {
             console.error("Error searching posts:", err);
@@ -209,7 +207,6 @@ app.post('/posts/:id/delete', auth, (req, res) => {
                 return res.status(404).send("Post not found");
             }
 
-            // Check if the logged-in user is the author of the post
             if (post.author.toString() !== req.user.id) {
                 return res.status(403).send("You are not authorized to delete this post");
             }
@@ -217,7 +214,7 @@ app.post('/posts/:id/delete', auth, (req, res) => {
             // Delete the post
             Post.findByIdAndDelete(postId)
                 .then(() => {
-                    res.redirect('/blog'); // Redirect back to the blog page after deletion
+                    res.redirect('/blog');
                 })
                 .catch((err) => {
                     console.error("Error deleting post:", err);
