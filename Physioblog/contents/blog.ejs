@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Posts</title>
+  <link rel="stylesheet" href="/styles/blog.css">
+</head>
+<body>
+  <header>
+    <h1>Recent Posts</h1>
+    <div class="header-right">
+      <div class="search-container">
+        <form action="/search" method="GET">
+          <input type="text" name="query" placeholder="Search posts by title..." required>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <nav>
+        <a href="/create-post" class="create-post-button">Create Post</a>
+        <form action="/logout" method="POST" style="display: inline;">
+          <button type="submit" class="logout-button">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="posts">
+      <% if (posts.length === 0) { %>
+        <p>No posts found matching your search.</p>
+      <% } else { %>
+        <% posts.forEach(post => { %>
+          <div class="post">
+            <h2><%= post.title %></h2>
+            <p><%= post.content.substring(0, 100) %>...</p>
+            <p><small>By: <%= post.author ? post.author.username : 'Unknown' %></small></p>
+            <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
+            <!-- Delete button (only visible to the author) -->
+            <% if (user && post.author && user.id === post.author._id.toString()) { %>
+              <form action="/posts/<%= post._id %>/delete" method="POST" style="display: inline;">
+                <button type="submit" class="delete-button">Delete</button>
+              </form>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Physioblog. All rights reserved.</p>
+    <a href="/home">Back to Home</a>
+  </footer>
+</body>
+</html>
