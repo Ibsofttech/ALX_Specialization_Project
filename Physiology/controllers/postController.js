@@ -74,13 +74,12 @@ exports.deletePost = (req, res) => {
 
 
 exports.searchPosts = (req, res) => {
-    const query = req.query.query; // Get the search query from the URL
+    const query = req.query.query;
 
-    // Search for posts whose titles match the query (case-insensitive)
     Post.find({ title: { $regex: query, $options: 'i' } })
         .populate('author', 'username')
         .then((posts) => {
-            res.render('blog', { posts, user: req.user }); // Render the blog page with search results
+            res.render('blog', { posts, user: req.user });
         })
         .catch((err) => {
             console.error("Error searching posts:", err);
