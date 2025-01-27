@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post.title %></title>
+  <link rel="stylesheet" href="/styles/blog.css"> <!-- Correct path to CSS -->
+</head>
+<body>
+  <header>
+    <h1><%= post.title %></h1>
+    <nav>
+      <a href="/blog" class="back-button">Back to Blog</a>
+      <a href="/logout" class="logout-button">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="post-detail">
+      <p class="post-content"><%= post.content %></p>
+      <p class="post-meta">
+        <small>By: <%= post.author.username %></small>
+        <small>Posted on: <%= post.date.toDateString() %></small>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Physioblog. All rights reserved.</p>
+    <a href="/home">Back to Home</a>
+  </footer>
+</body>
+</html>
