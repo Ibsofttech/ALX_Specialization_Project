@@ -66,20 +66,17 @@ cd ALX_Specialization_Project
 2. **Install dependencies**
 
 ```
-```bash
 npm install
 ```
 
 3. **Set up environment variables**
 ```
-```env
 PORT=3000
 JWT_SECRET=your_jwt_secret_key
 ```
 
 4. **Start the server**
 ```
-```bash
 npm start
 ```
 5. **Access the application**
