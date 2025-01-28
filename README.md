@@ -57,7 +57,6 @@ Before running the project, ensure you have the following installed:
 1. **Clone the repository**
 
 ```
-```bash
 git clone https://github.com/Ibsofttech/ALX_Specialization_Project.git
 
 cd ALX_Specialization_Project
